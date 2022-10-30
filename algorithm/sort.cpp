@@ -23,9 +23,23 @@ template<typename T>
 void insert_sort(T A[], int len){
     for (int i=1;i<len-1;i++){
         int j = i;
-        while (j>=0 && A[j+1]<A[j]){
+        while (j>=0 ss&& A[j+1]<A[j]){
             std::swap(A[j], A[j+1])
             j--;
+        }
+    }
+}
+
+template<typename T>
+void shell_sort(T A[], int len){
+    int h;
+    while (h >= 1){
+        for (int i=h;i<len;i++){
+            for (int j=i;j>=h;j-=h){
+                if (A[j] > A[j-h]){
+                    std::swap(A[j], A[j-h])
+                }
+            }
         }
     }
 }
