@@ -12,3 +12,5 @@ Record the study details.
     - using Sedgewick's step function.
   - merge_sort
   - quick_sort
+- Other
+  - Manacher
