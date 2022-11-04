@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-int longest_palidrome_expand(const std::string& s, int left, int right){
+int longest_palindrome_expand(const std::string& s, int left, int right){
     while (left>=0 && right<s.size() && s[left]==s[right]){
         --left;
         ++right;
@@ -10,7 +10,7 @@ int longest_palidrome_expand(const std::string& s, int left, int right){
     return (right-left-2)/2;
 }
 
-std::string longest_palidrome(std::string s){
+std::string longest_palindrome(std::string s){
     int start = 0, end = -1;
     std::string t = "#";
     std::string ret;
@@ -40,10 +40,10 @@ std::string longest_palidrome(std::string s){
             start = i - cur_arm_len;
             end = i + cur_arm_len;
         }
-        for (int i=start;i<end;++i){
-            if (s[i]!='#')
-                ret += s[i];
-        }
+    }
+    for (int i=start;i<end;++i){
+        if (s[i]!='#')
+            ret += s[i];
     }
     return ret;
 }
@@ -52,7 +52,7 @@ int main(){
     // Longest Palindrome
     std::string s{"asdfasdssdsag"};
     std::cout << s << std::endl;
-    std::cout << longest_palidrome(s) << std::endl;
+    std::cout << longest_palindrome(s) << std::endl;
 
     return 0;
 }
