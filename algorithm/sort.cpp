@@ -2,6 +2,16 @@
 #include <vector>
 #include <cmath>
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+
+// bubble sort
 template<typename T>
 void bubble_sort(T A[], int len){
     for (int i=len-1;i>0;i--)
@@ -10,6 +20,8 @@ void bubble_sort(T A[], int len){
                 std::swap(A[j], A[j+1]);
 }
 
+
+// select sort
 template<typename T>
 void select_sort(T A[], int len){
     for (int i=0;i<len-1;i++){
@@ -21,6 +33,7 @@ void select_sort(T A[], int len){
     }
 }
 
+// insert sort
 template<typename T>
 void insert_sort(T A[], int len){
     for (int i=1;i<len-1;i++){
@@ -32,6 +45,7 @@ void insert_sort(T A[], int len){
     }
 }
 
+//shell sort
 int get_shell_step(int n){
     int l = n % 2;
     int m = n / 2;
@@ -66,6 +80,7 @@ void shell_sort(T A[], int len){
     }
 }
 
+// merge sort
 template<typename T>
 void merge_sort(T A[], int len){
     T *a = A;
@@ -96,6 +111,8 @@ void merge_sort(T A[], int len){
     delete[] b;
 }
 
+
+// quick sort
 template<typename T>
 int quick_sort_partition(T A[] , int low, int high){
     int pivot = A[low];
@@ -126,11 +143,100 @@ void quick_sort(T A[], int len){
 }
 
 
+// heap sort
+template<typename T>
+void max_heapify(T A[], int start, int end){
+    int dad = start;
+    int son = dad * 2 + 1;
+    while (son <= end){
+        if (son+1<=end && A[son]<A[son+1])
+            son++;
+        if (A[dad]>A[son])
+            return;
+        else{
+            std::swap(A[dad], A[son]);
+            dad = son;
+            son = dad*2+1;
+        }
+    }
+}
+
+
+template<typename T>
+void heap_sort(T A[], int len){
+    for (int i=len/2-1;i>=0;i--)
+        max_heapify(A, i, len-1);
+    for (int i=len-1;i>0;i--){
+        std::swap(A[0], A[i]);
+        max_heapify(A, 0, i-1);
+    }
+    return;
+}
+
+// bucket sort
+ListNode* insert_node(ListNode* head, int val){
+    ListNode *dummy_node;
+    ListNode *new_node = new ListNode(val);
+    ListNode *pre, *cur;
+    dummy_node->next = head;
+    pre = dummy_node;
+    cur = head;
+    while (nullptr!=cur && cur->val<=val){
+        pre = cur;
+        cur = cur->next;
+    }
+    new_node->next = cur;
+    pre->next = new_node;
+    return dummy_node->next;
+}
+
+ListNode* merge_node(ListNode *head1, ListNode *head2){
+    ListNode *dummy_node;
+    ListNode *temp = dummy_node;
+    while (nullptr!=head1 && nullptr!=head2){
+        if (head1->val<=head2->val){
+            temp->next = head1;
+            head1 = head1->next;
+        }
+        else{
+            temp->next = head2;
+            head2 = head2->next;
+        }
+    }
+    if (nullptr!=head1) temp->next = head1;
+    if (nullptr!=head2) temp->next = head2;
+    return dummy_node->next;
+}
+
+template<typename T>
+void bucket_sort(T A[], int len){
+    int BUCKET_NUM = 10;
+    std::vector<ListNode*> buckets;
+    for (int i=0;i<BUCKET_NUM;++i)
+        buckets.push_back(new ListNode(0));
+    for (int i=0;i<len;++i){
+        int index = A[i]/BUCKET_NUM;
+        ListNode *head = buckets.at(index);
+        buckets.at(index);
+        A[i];
+        insert_node(head, A[i]);
+        buckets.at(index) = insert_node(head, A[i]);
+    }
+    ListNode *head = buckets.at(0);
+    for (int i=0;i<BUCKET_NUM;++i)
+        head = merge_node(head, buckets.at(i));
+    for (int i=0;i<len;++i){
+        A[i] = head->val;
+        head = head->next;
+    }
+}
+
+
 int main(int argc, char const *argv[])
 {
     int a[] = {1,23,3,21,45,5};
     int len = (int) sizeof(a) / sizeof(a[0]);
-    quick_sort(a, len);
+    bucket_sort(a, len);
     for (int i=0;i<6;i++){
         std::cout << a[i] << std::endl;
     }

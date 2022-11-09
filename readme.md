@@ -12,6 +12,7 @@ Record the study details.
     - using Sedgewick's step function.
   - merge_sort
   - quick_sort
+  - heap_sort
 - Search
   - kmp
   - boyer_moore
