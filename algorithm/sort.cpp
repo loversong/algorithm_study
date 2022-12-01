@@ -146,6 +146,7 @@ void quick_sort(T A[], int len){
 // heap sort
 template<typename T>
 void max_heapify(T A[], int start, int end){
+    // From root to leaf, encode the data by sequence
     int dad = start;
     int son = dad * 2 + 1;
     while (son <= end){
