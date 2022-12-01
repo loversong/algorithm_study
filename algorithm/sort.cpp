@@ -232,12 +232,33 @@ void bucket_sort(T A[], int len){
     }
 }
 
+int get_digit(int n, int d){
+    while (d>0){
+        n = n / 10;
+        d--;
+    }
+    return n % 10;
+}
+
+void radix_sort(int A[], int len, int d){
+    for (int w=0;w<d;w++){
+        for (int i=len-1;i>0;i--){
+            for (int j=0;j<i;j++){
+                int x = get_digit(A[j], w);
+                int y = get_digit(A[j+1], w);
+                if (x>y)
+                    std::swap(A[j], A[j+1]);
+            }
+        }
+    }
+}
+
 
 int main(int argc, char const *argv[])
 {
     int a[] = {1,23,3,21,45,5};
     int len = (int) sizeof(a) / sizeof(a[0]);
-    bucket_sort(a, len);
+    radix_sort(a, len, 2);
     for (int i=0;i<6;i++){
         std::cout << a[i] << std::endl;
     }
